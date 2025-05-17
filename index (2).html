@@ -1,0 +1,93 @@
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>بريد القلعة</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+<style>
+  body {
+    font-family: monospace;
+    background-color: #12151c;
+    color: #c7c7c7;
+  }
+  input, button {
+    font-family: monospace;
+  }
+</style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4">
+  <h1 class="text-xl font-semibold mb-4">بريد القلعة</h1>
+  <div class="w-full max-w-md bg-[#1f1a1d] rounded-md p-6 shadow-lg">
+    <label for="email" class="block mb-1 text-sm">البريد الإلكتروني</label>
+    <input id="email" type="email" placeholder="أدخل البريد الإلكتروني" class="w-full bg-[#3a3538] rounded px-3 py-2 mb-4 text-sm text-[#c7c7c7] focus:outline-none" />
+
+    <label for="password" class="block mb-1 text-sm">كلمة المرور</label>
+    <input id="password" type="password" placeholder="أدخل كلمة المرور" class="w-full bg-[#3a3538] rounded px-3 py-2 mb-4 text-sm text-[#c7c7c7] focus:outline-none" />
+
+    <label for="castleId" class="block mb-1 text-sm">معرف القلعة</label>
+    <input id="castleId" type="text" placeholder="أدخل معرف القلعة" class="w-full bg-[#3a3538] rounded px-3 py-2 mb-6 text-sm text-[#c7c7c7] focus:outline-none" />
+
+    <button id="sendBtn" class="w-full bg-[#2a64f4] rounded px-3 py-2 mb-4 text-sm text-white font-semibold flex items-center justify-center space-x-2 rtl:space-x-reverse">
+      <i class="fas fa-paper-plane"></i>
+      <span>إرسال</span>
+    </button>
+
+    <p id="status" class="mb-4 text-center text-yellow-400 text-sm"></p>
+
+    <div class="text-center text-sm font-semibold">
+      <span>الوقت المتبقي قبل الانتهاء: </span>
+      <span id="countdown" class="text-[#2a64f4]"></span>
+    </div>
+  </div>
+
+  <script>
+    const sendBtn = document.getElementById('sendBtn');
+    const status = document.getElementById('status');
+    const countdown = document.getElementById('countdown');
+
+    sendBtn.addEventListener('click', () => {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const castleId = document.getElementById('castleId').value.trim();
+
+      if (!email || !password || !castleId) {
+        status.textContent = 'يرجى ملء جميع الحقول.';
+        return;
+      }
+
+      status.textContent = 'جارٍ إرسال البيانات...';
+
+      // Placeholder for actual sending logic
+      setTimeout(() => {
+        status.textContent = 'تم الإرسال بنجاح (محاكاة).';
+      }, 2000);
+    });
+
+    // Countdown timer setup (10 days from now)
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + 10);
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        countdown.textContent = 'انتهى الوقت';
+        clearInterval(intervalId);
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      countdown.textContent = `${days} يوم ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`;
+    }
+
+    updateCountdown();
+    const intervalId = setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
